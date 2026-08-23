@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback System</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating background shapes for glassmorphism effect -->
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- 2. LEFT SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-graduation-cap logo-icon"></i>
+            <span class="logo-text">FeedbackPortal</span>
+            <button class="close-sidebar" id="closeSidebar"><i class="fa-solid fa-times"></i></button>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-item active">
+                <a href="#"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fa-solid fa-pen-to-square"></i><span>Give Feedback</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fa-solid fa-book"></i><span>Subjects</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fa-solid fa-clock-rotate-left"></i><span>Feedback History</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="#"><i class="fa-solid fa-circle-question"></i><span>Help</span></a>
+            </li>
+            <li class="menu-item logout">
+                <a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- 1. TOP NAVBAR -->
+        <header class="top-navbar">
+            <div class="nav-left">
+                <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
+                <div class="mobile-logo">Student Feedback System</div>
+                <div class="desktop-logo-text">Student Feedback System</div>
+            </div>
+            <div class="nav-center">
+                <span class="semester-badge">Semester 5</span>
+            </div>
+            <div class="nav-right">
+                <div class="notification-icon" title="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="badge">3</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <div class="user-profile" title="Profile">
+                    <img src="https://ui-avatars.com/api/?name=Naman+Sardana&background=F97316&color=fff&rounded=true" alt="Student Avatar" class="avatar">
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <!-- 3. HERO SECTION -->
+            <section class="hero-section glass-card fade-up">
+                <div class="hero-content">
+                    <h1>Hello, Naman 👋</h1>
+                    <p class="subtitle">Welcome back to the Student Feedback Portal.</p>
+                    <p class="hero-description">Complete your semester feedback before the deadline.</p>
+                    <div class="hero-details">
+                        <span class="detail-badge"><i class="fa-solid fa-calendar-check"></i> 5th Semester</span>
+                        <span class="detail-badge"><i class="fa-solid fa-laptop-code"></i> Computer Science Engineering</span>
+                    </div>
+                    <button class="btn btn-primary ripple">Start Feedback</button>
+                </div>
+                <div class="hero-graphics">
+                    <div class="hero-shape hero-shape-1"></div>
+                    <div class="hero-shape hero-shape-2"></div>
+                </div>
+            </section>
+
+            <!-- 4. STATISTICS CARDS -->
+            <section class="stats-grid">
+                <div class="stat-card glass-card fade-up" style="animation-delay: 0.1s;">
+                    <div class="stat-icon warning"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <div class="stat-info">
+                        <h3>Pending Feedback</h3>
+                        <p class="stat-value counter" data-target="3">0</p>
+                    </div>
+                </div>
+                <div class="stat-card glass-card fade-up" style="animation-delay: 0.2s;">
+                    <div class="stat-icon success"><i class="fa-solid fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <h3>Completed</h3>
+                        <p class="stat-value counter" data-target="5">0</p>
+                    </div>
+                </div>
+                <div class="stat-card glass-card fade-up" style="animation-delay: 0.3s;">
+                    <div class="stat-icon primary"><i class="fa-solid fa-chalkboard-user"></i></div>
+                    <div class="stat-info">
+                        <h3>Faculty</h3>
+                        <p class="stat-value counter" data-target="8">0</p>
+                    </div>
+                </div>
+                <div class="stat-card glass-card fade-up" style="animation-delay: 0.4s;">
+                    <div class="stat-icon danger"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div class="stat-info">
+                        <h3>Days Remaining</h3>
+                        <p class="stat-value counter" data-target="4">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="dashboard-layout">
+                <!-- Left Column (Main Content) -->
+                <div class="main-column">
+                    <!-- 5. FEEDBACK PROGRESS -->
+                    <section class="progress-section glass-card fade-up" style="animation-delay: 0.5s;">
+                        <h2 class="section-title">Feedback Progress</h2>
+                        <div class="progress-container">
+                            <div class="progress-circle">
+                                <div class="circle">
+                                    <svg>
+                                        <circle cx="60" cy="60" r="50" class="bg-circle"></circle>
+                                        <circle cx="60" cy="60" r="50" class="progress-value" style="--percent: 75;"></circle>
+                                    </svg>
+                                    <div class="circle-inner">
+                                        <h3 class="counter" data-target="75" data-suffix="%">0%</h3>
+                                        <span>Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="progress-details">
+                                <div class="progress-bar-container">
+                                    <div class="progress-header">
+                                        <span>Overall Progress</span>
+                                        <span class="progress-text">75%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%" data-width="75%"></div>
+                                    </div>
+                                </div>
+                                <p class="motivational-message">"Almost there! Complete your remaining feedback."</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 6. SUBJECT CARDS -->
+                    <section class="subjects-section fade-up" style="animation-delay: 0.6s;">
+                        <h2 class="section-title">Subjects</h2>
+                        <div class="subjects-grid">
+                            <!-- Card 1 -->
+                            <div class="subject-card glass-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon primary"><i class="fa-solid fa-database"></i></div>
+                                    <span class="status-badge pending">Pending</span>
+                                </div>
+                                <h3>Database Management Systems</h3>
+                                <p class="faculty-name"><i class="fa-solid fa-user-tie"></i> Dr. Sharma</p>
+                                <button class="btn btn-outline ripple">Give Feedback</button>
+                            </div>
+                            
+                            <!-- Card 2 -->
+                            <div class="subject-card glass-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon success"><i class="fa-brands fa-java"></i></div>
+                                    <span class="status-badge completed">Completed</span>
+                                </div>
+                                <h3>Java Programming</h3>
+                                <p class="faculty-name"><i class="fa-solid fa-user-tie"></i> Prof. Verma</p>
+                                <button class="btn btn-success ripple">View Submission</button>
+                            </div>
+                            
+                            <!-- Card 3 -->
+                            <div class="subject-card glass-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon secondary"><i class="fa-solid fa-brain"></i></div>
+                                    <span class="status-badge pending">Pending</span>
+                                </div>
+                                <h3>Artificial Intelligence</h3>
+                                <p class="faculty-name"><i class="fa-solid fa-user-tie"></i> Dr. Singh</p>
+                                <button class="btn btn-outline ripple">Give Feedback</button>
+                            </div>
+                            
+                            <!-- Card 4 -->
+                            <div class="subject-card glass-card">
+                                <div class="subject-header">
+                                    <div class="subject-icon warning"><i class="fa-solid fa-microchip"></i></div>
+                                    <span class="status-badge pending">Pending</span>
+                                </div>
+                                <h3>Operating Systems</h3>
+                                <p class="faculty-name"><i class="fa-solid fa-user-tie"></i> Prof. Gupta</p>
+                                <button class="btn btn-outline ripple">Give Feedback</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 10. DEVELOPMENT STATUS (Roadmap) -->
+                    <section class="roadmap-section glass-card fade-up" style="animation-delay: 0.7s;">
+                        <h2 class="section-title">Project Roadmap</h2>
+                        <div class="roadmap-progress">
+                            <div class="progress-header">
+                                <span>Overall Project Progress</span>
+                                <span class="progress-text">25%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill secondary-fill" style="width: 0%" data-width="25%"></div>
+                            </div>
+                        </div>
+                        <div class="roadmap-grid">
+                            <div class="roadmap-item completed">
+                                <i class="fa-solid fa-check-circle"></i>
+                                <span>Homepage Completed</span>
+                            </div>
+                            <div class="roadmap-item in-progress">
+                                <i class="fa-solid fa-circle-dot"></i>
+                                <span>Login Module (In Progress)</span>
+                            </div>
+                            <div class="roadmap-item coming-soon">
+                                <i class="fa-regular fa-circle"></i>
+                                <span>Feedback Form (Coming Soon)</span>
+                            </div>
+                            <div class="roadmap-item coming-soon">
+                                <i class="fa-regular fa-circle"></i>
+                                <span>Analytics Dashboard (Coming Soon)</span>
+                            </div>
+                            <div class="roadmap-item coming-soon">
+                                <i class="fa-regular fa-circle"></i>
+                                <span>Faculty Panel (Coming Soon)</span>
+                            </div>
+                            <div class="roadmap-item coming-soon">
+                                <i class="fa-regular fa-circle"></i>
+                                <span>Admin Panel (Coming Soon)</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column (Sidebar Content) -->
+                <div class="side-column">
+                    <!-- 9. ANNOUNCEMENTS -->
+                    <section class="announcements-section glass-card fade-up" style="animation-delay: 0.5s;">
+                        <h2 class="section-title"><i class="fa-solid fa-bullhorn warning-text"></i> Announcement</h2>
+                        <div class="announcement-content">
+                            <p class="highlight-text">Feedback submission closes on 5 August.</p>
+                            <p>Complete all pending feedback before the deadline.</p>
+                        </div>
+                    </section>
+
+                    <!-- 7. UPCOMING DEADLINES -->
+                    <section class="deadlines-section glass-card fade-up" style="animation-delay: 0.6s;">
+                        <h2 class="section-title">Upcoming Deadlines</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot danger"></div>
+                                <div class="timeline-content">
+                                    <h4>Database Systems</h4>
+                                    <span class="timeline-date">Tomorrow</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot warning"></div>
+                                <div class="timeline-content">
+                                    <h4>Artificial Intelligence</h4>
+                                    <span class="timeline-date">3 August</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot primary"></div>
+                                <div class="timeline-content">
+                                    <h4>Operating Systems</h4>
+                                    <span class="timeline-date">5 August</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 8. RECENT ACTIVITY -->
+                    <section class="activity-section glass-card fade-up" style="animation-delay: 0.7s;">
+                        <h2 class="section-title">Recent Activity</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-icon success"><i class="fa-solid fa-check"></i></div>
+                                <div class="timeline-content">
+                                    <h4>Profile Updated</h4>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon success"><i class="fa-solid fa-check"></i></div>
+                                <div class="timeline-content">
+                                    <h4>AI Feedback Saved</h4>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon success"><i class="fa-solid fa-check"></i></div>
+                                <div class="timeline-content">
+                                    <h4>Java Feedback Submitted</h4>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon success"><i class="fa-solid fa-check"></i></div>
+                                <div class="timeline-content">
+                                    <h4>Logged In</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. FOOTER -->
+<footer class="footer">
+
+    <div class="footer-content">
+
+        <!-- About -->
+        <div class="footer-section footer-about">
+
+            <h3>
+                <i class="fa-solid fa-graduation-cap"></i>
+                FeedbackPortal
+            </h3>
+
+            <p>
+                A simple and efficient platform for students
+                to share their valuable feedback about their
+                academic experience.
+            </p>
+
+        </div>
+
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+
+            <h4>Quick Links</h4>
+
+            <a href="#">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Give Feedback
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-book"></i>
+                Subjects
+            </a>
+
+        </div>
+
+
+        <!-- Support -->
+        <div class="footer-section">
+
+            <h4>Support</h4>
+
+            <a href="#">
+                <i class="fa-solid fa-circle-question"></i>
+                Help Center
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-envelope"></i>
+                Contact Us
+            </a>
+
+        </div>
+
+
+        <!-- Information -->
+        <div class="footer-section">
+
+            <h4>Information</h4>
+
+            <p>
+                <i class="fa-solid fa-calendar"></i>
+                Semester 5
+            </p>
+
+            <p>
+                <i class="fa-solid fa-code"></i>
+                Version 1.0
+            </p>
+
+            <p>
+                <i class="fa-solid fa-shield-halved"></i>
+                Student Portal
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Bottom Footer -->
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 Student Feedback System. All rights reserved.
+        </p>
+
+        <p class="credits">
+            Designed & Developed by Naman Sardana
+        </p>
+
+    </div>
+
+</footer>
+    </main>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
