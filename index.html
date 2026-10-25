@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Feedback System</title>
+    <title>Student Feedback System - Academic Evaluation Portal</title>
     <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
@@ -19,425 +19,1627 @@
         <div class="shape shape-3"></div>
     </div>
 
-    <!-- 2. LEFT SIDEBAR -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <i class="fa-solid fa-graduation-cap logo-icon"></i>
-            <span class="logo-text">FeedbackPortal</span>
-            <button class="close-sidebar" id="closeSidebar"><i class="fa-solid fa-times"></i></button>
+    <!-- ==========================================
+         SIGN IN / SIGN OUT & GUEST AUTH VIEW
+         ========================================== -->
+    <div class="auth-wrapper" id="authPage" style="display: none;">
+        <!-- Top bar with branding & THEME TOGGLE on Sign In / Sign Out Page -->
+        <div class="auth-top-bar">
+            <div class="auth-brand">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">FeedbackPortal</span>
+            </div>
+            <!-- Theme Changer directly on Sign In / Sign Out page -->
+            <button class="auth-theme-btn" id="authThemeToggle" title="Change Theme">
+                <i class="fa-solid fa-moon"></i>
+                <span id="authThemeText">Dark Mode</span>
+            </button>
         </div>
-        <ul class="sidebar-menu">
-            <li class="menu-item active">
-                <a href="#"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
-            </li>
-            <li class="menu-item">
-                <a href="#"><i class="fa-solid fa-pen-to-square"></i><span>Give Feedback</span></a>
-            </li>
-            <li class="menu-item">
-                <a href="#"><i class="fa-solid fa-book"></i><span>Subjects</span></a>
-            </li>
-            <li class="menu-item">
-                <a href="#"><i class="fa-solid fa-clock-rotate-left"></i><span>Feedback History</span></a>
-            </li>
-            <li class="menu-item">
-                <a href="#"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
-            </li>
-            <li class="menu-item">
-                <a href="#"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-            </li>
-            <li class="menu-item">
-                <a href="#"><i class="fa-solid fa-circle-question"></i><span>Help</span></a>
-            </li>
-            <li class="menu-item logout">
-                <a href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
-            </li>
-        </ul>
-    </nav>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-        <!-- 1. TOP NAVBAR -->
-        <header class="top-navbar">
-            <div class="nav-left">
-                <button class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></button>
-                <div class="mobile-logo">Student Feedback System</div>
-                <div class="desktop-logo-text">Student Feedback System</div>
-            </div>
-            <div class="nav-center">
-                <span class="semester-badge">Semester 5</span>
-            </div>
-            <div class="nav-right">
-                <div class="notification-icon" title="Notifications">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="badge">3</span>
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-icon-circle">
+                    <i class="fa-solid fa-graduation-cap" id="authHeaderIcon"></i>
                 </div>
-                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
-                    <i class="fa-solid fa-moon"></i>
+                <h2 id="authCardTitle">Academic Portal Login</h2>
+                <p id="authCardSubtitle">Select your role to sign into the feedback system</p>
+            </div>
+
+            <!-- Sign Out Notification Banner (Shown after logging out) -->
+            <div class="auth-signout-alert" id="authSignOutAlert" style="display: none;">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>You have successfully signed out of your account.</span>
+            </div>
+
+            <!-- Role Selector: Choose First (Student vs Admin) -->
+            <div class="auth-role-selector">
+                <label class="form-label">
+                    <i class="fa-solid fa-users-gear primary-text"></i> Choose Account Role:
+                </label>
+                <div class="auth-role-tabs">
+                    <button type="button" class="auth-role-tab active" id="authRoleStudentBtn" data-auth-role="student">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>Student</span>
+                    </button>
+                    <button type="button" class="auth-role-tab" id="authRoleAdminBtn" data-auth-role="admin">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Administrator</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabs: Sign In / Create Account -->
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab-btn active" id="tabSignInBtn">Sign In</button>
+                <button type="button" class="auth-tab-btn" id="tabSignUpBtn">Create Account</button>
+            </div>
+
+            <!-- SIGN IN FORM -->
+            <form id="signInForm">
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail" id="authIdLabel">
+                        <i class="fa-solid fa-id-card primary-text"></i> <span id="authIdLabelText">Student Roll Number / College ID</span>
+                    </label>
+                    <input type="text" id="loginEmail" class="form-control" placeholder="e.g. 22CSE1042 or 23CSE1001" value="22CSE1042" required>
+                    <div class="auth-credential-hint" id="authCredentialHint">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Default Demo: <strong>22CSE1042</strong> | Pass: <code>student123</code>. Enter any new ID to start fresh from 0% progress!</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword" id="authPasswordLabel">
+                        <i class="fa-solid fa-lock primary-text"></i> <span id="authPasswordLabelText">Password</span>
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" value="student123" required>
+                        <button type="button" class="toggle-password-visibility" id="toggleLoginPassword" aria-label="Toggle password visibility">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-size: 0.85rem;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;">
+                        <input type="checkbox" id="rememberMeCheckbox" checked style="accent-color: var(--primary);">
+                        <span style="color: var(--text-muted);">Remember Me</span>
+                    </label>
+                    <a href="#" id="forgotPasswordLink" style="color: var(--primary); text-decoration: none; font-weight: 500;">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary ripple auth-btn" id="submitLoginBtn">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In as Student
                 </button>
-                <div class="user-profile" title="Profile">
-                    <img src="https://ui-avatars.com/api/?name=Naman+Sardana&background=F97316&color=fff&rounded=true" alt="Student Avatar" class="avatar">
+            </form>
+
+            <!-- SIGN UP FORM (Initially hidden) -->
+            <form id="signUpForm" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label" for="regFullName">
+                        <i class="fa-solid fa-user primary-text"></i> Full Name
+                    </label>
+                    <input type="text" id="regFullName" class="form-control" placeholder="Enter student name" required>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regRollNo">
+                        <i class="fa-solid fa-id-card primary-text"></i> Roll Number / Student ID
+                    </label>
+                    <input type="text" id="regRollNo" class="form-control" placeholder="e.g. 23CSE2045 (Starts fresh from 0% progress)" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regEmail">
+                        <i class="fa-solid fa-envelope primary-text"></i> College Email Address
+                    </label>
+                    <input type="email" id="regEmail" class="form-control" placeholder="name@college.edu" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regBranch">
+                        <i class="fa-solid fa-laptop-code primary-text"></i> Department / Branch
+                    </label>
+                    <input type="text" id="regBranch" class="form-control" placeholder="e.g. Computer Science Engineering" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="regPassword">
+                        <i class="fa-solid fa-lock primary-text"></i> Create Password
+                    </label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Min. 6 characters" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary ripple auth-btn">
+                    <i class="fa-solid fa-user-plus"></i> Create Account & Start (0% Progress)
+                </button>
+            </form>
+
+            <!-- GUEST MODE BUTTON -->
+            <button type="button" class="guest-btn ripple" id="continueGuestBtn">
+                <i class="fa-solid fa-user-ninja"></i> Continue as Guest Mode
+            </button>
+            <p style="font-size:0.75rem; text-align:center; color:var(--text-muted); margin-top:8px;">
+                Instant trial access without login • Progress starts from 0%
+            </p>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         MAIN APPLICATION (Visible when logged in or in Guest Mode)
+         ========================================== -->
+    <div id="appWrapper">
+        <!-- LEFT SIDEBAR -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">FeedbackPortal</span>
+                <button class="close-sidebar" id="closeSidebar" aria-label="Close Sidebar"><i class="fa-solid fa-times"></i></button>
             </div>
-        </header>
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-view="dashboard">
+                    <a href="#dashboard"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+                </li>
+                <li class="menu-item" data-view="give-feedback">
+                    <a href="#give-feedback"><i class="fa-solid fa-pen-to-square"></i><span>Give Feedback</span></a>
+                </li>
+                <li class="menu-item" data-view="subjects">
+                    <a href="#subjects"><i class="fa-solid fa-book"></i><span>Subjects</span></a>
+                </li>
+                <li class="menu-item" data-view="feedback-history">
+                    <a href="#feedback-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Feedback History</span></a>
+                </li>
+                <li class="menu-item" data-view="analytics">
+                    <a href="#analytics"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+                </li>
+                <li class="menu-item" data-view="settings">
+                    <a href="#settings"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+                </li>
+                <li class="menu-item" data-view="help">
+                    <a href="#help"><i class="fa-solid fa-circle-question"></i><span>Help & FAQ</span></a>
+                </li>
+                <li class="menu-item logout">
+                    <a href="#" id="sidebarSignOutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Sign Out</span></a>
+                </li>
+            </ul>
+        </nav>
 
-        <div class="dashboard-container">
-            <!-- 3. HERO SECTION -->
-            <section class="hero-section glass-card fade-up">
-                <div class="hero-content">
-                    <h1>Hello, Naman 👋</h1>
-                    <p class="subtitle">Welcome back to the Student Feedback Portal.</p>
-                    <p class="hero-description">Complete your semester feedback before the deadline.</p>
-                    <div class="hero-details">
-                        <span class="detail-badge"><i class="fa-solid fa-calendar-check"></i> 5th Semester</span>
-                        <span class="detail-badge"><i class="fa-solid fa-laptop-code"></i> Computer Science Engineering</span>
-                    </div>
-                    <button class="btn btn-primary ripple">Start Feedback</button>
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- TOP NAVBAR -->
+            <header class="top-navbar">
+                <div class="nav-left">
+                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Sidebar"><i class="fa-solid fa-bars"></i></button>
+                    <div class="mobile-logo">FeedbackPortal</div>
+                    <div class="desktop-logo-text">Student Feedback System</div>
                 </div>
-                <div class="hero-graphics">
-                    <div class="hero-shape hero-shape-1"></div>
-                    <div class="hero-shape hero-shape-2"></div>
+                
+                <div class="nav-center">
+                    <span class="semester-badge" id="navSemesterBadge"><i class="fa-solid fa-graduation-cap"></i> Semester 5</span>
+                    <span class="detail-badge" id="activeRoleBadge" style="cursor: pointer;" title="Click to switch persona">
+                        <i class="fa-solid fa-user-check"></i> <span id="roleTextDisplay">Student View</span>
+                    </span>
+                    <span class="detail-badge guest-badge" id="guestNavBadge" style="display: none;">
+                        <i class="fa-solid fa-user-ninja"></i> Guest Mode
+                    </span>
                 </div>
-            </section>
 
-            <!-- 4. STATISTICS CARDS -->
-            <section class="stats-grid">
-                <div class="stat-card glass-card fade-up" style="animation-delay: 0.1s;">
-                    <div class="stat-icon warning"><i class="fa-solid fa-clipboard-list"></i></div>
-                    <div class="stat-info">
-                        <h3>Pending Feedback</h3>
-                        <p class="stat-value counter" data-target="3">0</p>
+                <div class="nav-right">
+                    <!-- Notifications Dropdown Wrapper -->
+                    <div class="nav-item-wrapper">
+                        <div class="notification-icon" id="notificationBtn" title="Notifications" tabindex="0">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="badge" id="notificationBadge">3</span>
+                        </div>
+                        <!-- Notification Dropdown -->
+                        <div class="dropdown-menu" id="notificationDropdown">
+                            <div class="dropdown-header">
+                                <h4><i class="fa-solid fa-bell"></i> Notifications</h4>
+                                <button id="markAllReadBtn" class="btn-link" style="background:none; border:none; color:var(--primary); font-size:0.8rem; cursor:pointer;">Mark all read</button>
+                            </div>
+                            <div class="dropdown-body" id="notificationList">
+                                <!-- Populated dynamically -->
+                            </div>
+                            <div class="dropdown-footer">
+                                <button id="clearNotificationsBtn">Clear notifications</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="stat-card glass-card fade-up" style="animation-delay: 0.2s;">
-                    <div class="stat-icon success"><i class="fa-solid fa-check-circle"></i></div>
-                    <div class="stat-info">
-                        <h3>Completed</h3>
-                        <p class="stat-value counter" data-target="5">0</p>
-                    </div>
-                </div>
-                <div class="stat-card glass-card fade-up" style="animation-delay: 0.3s;">
-                    <div class="stat-icon primary"><i class="fa-solid fa-chalkboard-user"></i></div>
-                    <div class="stat-info">
-                        <h3>Faculty</h3>
-                        <p class="stat-value counter" data-target="8">0</p>
-                    </div>
-                </div>
-                <div class="stat-card glass-card fade-up" style="animation-delay: 0.4s;">
-                    <div class="stat-icon danger"><i class="fa-solid fa-hourglass-half"></i></div>
-                    <div class="stat-info">
-                        <h3>Days Remaining</h3>
-                        <p class="stat-value counter" data-target="4">0</p>
-                    </div>
-                </div>
-            </section>
 
-            <div class="dashboard-layout">
-                <!-- Left Column (Main Content) -->
-                <div class="main-column">
-                    <!-- 5. FEEDBACK PROGRESS -->
-                    <section class="progress-section glass-card fade-up" style="animation-delay: 0.5s;">
-                        <h2 class="section-title">Feedback Progress</h2>
-                        <div class="progress-container">
-                            <div class="progress-circle">
-                                <div class="circle">
-                                    <svg>
-                                        <circle cx="60" cy="60" r="50" class="bg-circle"></circle>
-                                        <circle cx="60" cy="60" r="50" class="progress-value" style="--percent: 75;"></circle>
-                                    </svg>
-                                    <div class="circle-inner">
-                                        <h3 class="counter" data-target="75" data-suffix="%">0%</h3>
-                                        <span>Completed</span>
-                                    </div>
+                    <!-- Dark / Light Theme Toggle in Main App -->
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <!-- User Profile Dropdown Wrapper -->
+                    <div class="nav-item-wrapper">
+                        <div class="user-profile" id="profileBtn" title="Account Menu" tabindex="0">
+                            <img src="https://ui-avatars.com/api/?name=Naman+Sardana&background=F97316&color=fff&rounded=true" alt="Student Avatar" class="avatar" id="navUserAvatar">
+                        </div>
+                        <!-- Profile Dropdown -->
+                        <div class="dropdown-menu" id="profileDropdown">
+                            <div class="profile-menu-header">
+                                <img src="https://ui-avatars.com/api/?name=Naman+Sardana&background=F97316&color=fff&rounded=true" alt="Avatar" id="dropdownAvatar">
+                                <div>
+                                    <h4 id="dropdownUserName">Naman Sardana</h4>
+                                    <p id="dropdownUserRole">22CSE1042 • CSE</p>
                                 </div>
                             </div>
-                            <div class="progress-details">
-                                <div class="progress-bar-container">
+                            <ul class="profile-menu-list">
+                                <li><a href="#settings"><i class="fa-solid fa-user-gear"></i> Edit Profile</a></li>
+                                <li><a href="#feedback-history"><i class="fa-solid fa-receipt"></i> My Submissions</a></li>
+                                <li><a href="#" id="openRoleSwitchBtn"><i class="fa-solid fa-repeat"></i> Switch Persona</a></li>
+                                <li><a href="#help"><i class="fa-solid fa-circle-question"></i> Help & Guidelines</a></li>
+                                <li style="border-top: 1px solid var(--glass-border);"><a href="#" id="dropdownSignOutBtn" style="color: var(--danger);"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-container">
+
+                <!-- Guest Mode Alert Banner (Shown only in guest mode) -->
+                <div class="guest-active-banner" id="guestModeBanner" style="display: none;">
+                    <div>
+                        <i class="fa-solid fa-user-ninja"></i>
+                        <strong>Guest Mode Active:</strong> You are exploring the portal as a Guest. Feel free to evaluate courses and preview all features.
+                    </div>
+                    <button class="btn btn-primary ripple" id="guestSignInPromptBtn" style="padding:6px 16px; font-size:0.8rem;">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In / Create Account
+                    </button>
+                </div>
+
+                <!-- Role Alert / Switcher Banner -->
+                <div class="role-banner" id="portalRoleBanner">
+                    <div class="role-badge-tag">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Student Feedback Mode Active • Verified Anonymous Submission Enabled</span>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-secondary ripple" id="quickRoleSwitchBtn" style="padding:6px 14px; font-size:0.8rem;">
+                            <i class="fa-solid fa-user-gear"></i> Switch to Faculty/Admin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ==========================================
+                     VIEW 1: DASHBOARD
+                     ========================================== -->
+                <section id="view-dashboard" class="app-view active">
+                    <!-- HERO SECTION -->
+                    <section class="hero-section glass-card fade-up">
+                        <div class="hero-content">
+                            <h1>Hello, <span id="heroUserName">Naman</span> 👋</h1>
+                            <p class="subtitle">Welcome back to the Student Feedback Portal.</p>
+                            <p class="hero-description">Complete your semester feedback before the deadline to ensure your academic voice is heard.</p>
+                            <div class="hero-details">
+                                <span class="detail-badge" id="heroSemesterBadge"><i class="fa-solid fa-calendar-check"></i> 5th Semester</span>
+                                <span class="detail-badge" id="heroBranchBadge"><i class="fa-solid fa-laptop-code"></i> Computer Science Engineering</span>
+                                <span class="detail-badge"><i class="fa-solid fa-lock"></i> 100% Confidential</span>
+                            </div>
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <button class="btn btn-primary ripple" id="heroStartFeedbackBtn">
+                                    <i class="fa-solid fa-pen-to-square"></i> Start Feedback
+                                </button>
+                                <a href="#subjects" class="btn btn-outline ripple">
+                                    <i class="fa-solid fa-book-open"></i> View All Subjects
+                                </a>
+                            </div>
+                        </div>
+                        <div class="hero-graphics">
+                            <div class="hero-shape hero-shape-1"></div>
+                            <div class="hero-shape hero-shape-2"></div>
+                        </div>
+                    </section>
+
+                    <!-- STATISTICS CARDS -->
+                    <section class="stats-grid">
+                        <div class="stat-card glass-card fade-up" style="animation-delay: 0.1s;">
+                            <div class="stat-icon warning"><i class="fa-solid fa-clipboard-list"></i></div>
+                            <div class="stat-info">
+                                <h3>Pending Feedback</h3>
+                                <p class="stat-value counter" id="statPendingCount" data-target="3">3</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card fade-up" style="animation-delay: 0.2s;">
+                            <div class="stat-icon success"><i class="fa-solid fa-check-circle"></i></div>
+                            <div class="stat-info">
+                                <h3>Completed</h3>
+                                <p class="stat-value counter" id="statCompletedCount" data-target="3">3</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card fade-up" style="animation-delay: 0.3s;">
+                            <div class="stat-icon primary"><i class="fa-solid fa-chalkboard-user"></i></div>
+                            <div class="stat-info">
+                                <h3>Total Faculty</h3>
+                                <p class="stat-value counter" id="statFacultyCount" data-target="6">6</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card fade-up" style="animation-delay: 0.4s;">
+                            <div class="stat-icon danger"><i class="fa-solid fa-hourglass-half"></i></div>
+                            <div class="stat-info">
+                                <h3>Days Remaining</h3>
+                                <p class="stat-value counter" id="statDaysRemaining" data-target="4">4</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- QUICK ACTIONS BAR -->
+                    <div class="quick-actions-bar">
+                        <a href="#give-feedback" class="quick-action-btn"><i class="fa-solid fa-plus-circle"></i> Submit New Feedback</a>
+                        <a href="#subjects" class="quick-action-btn"><i class="fa-solid fa-list-check"></i> Filter Pending Courses</a>
+                        <a href="#feedback-history" class="quick-action-btn"><i class="fa-solid fa-clock-rotate-left"></i> Review Past Submissions</a>
+                        <a href="#analytics" class="quick-action-btn"><i class="fa-solid fa-chart-pie"></i> View Course Analytics</a>
+                    </div>
+
+                    <div class="dashboard-layout">
+                        <!-- Left Column (Main Content) -->
+                        <div class="main-column">
+                            <!-- FEEDBACK PROGRESS -->
+                            <section class="progress-section glass-card fade-up" style="animation-delay: 0.5s;">
+                                <h2 class="section-title"><i class="fa-solid fa-bars-progress primary-text"></i> Feedback Progress</h2>
+                                <div class="progress-container">
+                                    <div class="progress-circle">
+                                        <div class="circle">
+                                            <svg>
+                                                <circle cx="60" cy="60" r="50" class="bg-circle"></circle>
+                                                <circle cx="60" cy="60" r="50" class="progress-value" id="circleProgressValue" style="--percent: 50;"></circle>
+                                            </svg>
+                                            <div class="circle-inner">
+                                                <h3 class="counter" id="circleProgressText" data-target="50" data-suffix="%">50%</h3>
+                                                <span>Completed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-details">
+                                        <div class="progress-bar-container">
+                                            <div class="progress-header">
+                                                <span>Overall Completion</span>
+                                                <span class="progress-text" id="linearProgressText">50% (3 of 6 Courses)</span>
+                                            </div>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" id="linearProgressBar" style="width: 50%" data-width="50%"></div>
+                                            </div>
+                                        </div>
+                                        <p class="motivational-message" id="motivationalMessage">"Halfway done! Complete your remaining 3 subjects to finish Semester 5 evaluation."</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- SUBJECT CARDS PREVIEW -->
+                            <section class="subjects-section fade-up" style="animation-delay: 0.6s;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                                    <h2 class="section-title" style="margin-bottom:0;"><i class="fa-solid fa-book-bookmark primary-text"></i> Current Subjects</h2>
+                                    <a href="#subjects" class="btn-link" style="color:var(--primary); font-size:0.9rem; text-decoration:none; font-weight:600;">View All (6) →</a>
+                                </div>
+                                <div class="subjects-grid" id="dashboardSubjectsGrid">
+                                    <!-- Rendered dynamically -->
+                                </div>
+                            </section>
+
+                            <!-- DEVELOPMENT ROADMAP -->
+                            <section class="roadmap-section glass-card fade-up" style="animation-delay: 0.7s;">
+                                <h2 class="section-title"><i class="fa-solid fa-rocket primary-text"></i> System Modules Status</h2>
+                                <div class="roadmap-progress">
                                     <div class="progress-header">
-                                        <span>Overall Progress</span>
-                                        <span class="progress-text">75%</span>
+                                        <span>System Readiness</span>
+                                        <span class="progress-text">100% Operational</span>
                                     </div>
                                     <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 0%" data-width="75%"></div>
+                                        <div class="progress-fill secondary-fill" style="width: 100%" data-width="100%"></div>
                                     </div>
                                 </div>
-                                <p class="motivational-message">"Almost there! Complete your remaining feedback."</p>
+                                <div class="roadmap-grid">
+                                    <div class="roadmap-item completed">
+                                        <i class="fa-solid fa-check-circle"></i>
+                                        <span>Sign In / Sign Out & Guest Mode (Active)</span>
+                                    </div>
+                                    <div class="roadmap-item completed">
+                                        <i class="fa-solid fa-check-circle"></i>
+                                        <span>Multi-Persona Role Switcher (Active)</span>
+                                    </div>
+                                    <div class="roadmap-item completed">
+                                        <i class="fa-solid fa-check-circle"></i>
+                                        <span>Interactive Feedback Form & Stars (Active)</span>
+                                    </div>
+                                    <div class="roadmap-item completed">
+                                        <i class="fa-solid fa-check-circle"></i>
+                                        <span>Analytics & Visual Charts (Active)</span>
+                                    </div>
+                                    <div class="roadmap-item completed">
+                                        <i class="fa-solid fa-check-circle"></i>
+                                        <span>Faculty Evaluation Portal (Active)</span>
+                                    </div>
+                                    <div class="roadmap-item completed">
+                                        <i class="fa-solid fa-check-circle"></i>
+                                        <span>Digital Verification Receipts (Active)</span>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Right Column (Sidebar Content) -->
+                        <div class="side-column">
+                            <!-- ANNOUNCEMENTS -->
+                            <section class="announcements-section glass-card fade-up" style="animation-delay: 0.5s;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <h2 class="section-title"><i class="fa-solid fa-bullhorn warning-text"></i> Notice Board</h2>
+                                    <span class="badge" style="background:var(--warning); color:white; font-size:0.7rem; padding:3px 8px; border-radius:10px;">Urgent</span>
+                                </div>
+                                <div class="announcement-content">
+                                    <p class="highlight-text">Semester 5 Feedback closes on 5 August.</p>
+                                    <p>Faculty evaluations are strictly confidential and used to improve teaching curriculum & labs. Complete your pending courses today.</p>
+                                </div>
+                            </section>
+
+                            <!-- UPCOMING DEADLINES -->
+                            <section class="deadlines-section glass-card fade-up" style="animation-delay: 0.6s;">
+                                <h2 class="section-title"><i class="fa-solid fa-calendar-xmark danger-text"></i> Upcoming Deadlines</h2>
+                                <div class="timeline" id="deadlinesTimeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot danger"></div>
+                                        <div class="timeline-content">
+                                            <h4>Database Systems (CS501)</h4>
+                                            <span class="timeline-date"><i class="fa-regular fa-clock"></i> Tomorrow, 11:59 PM</span>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot warning"></div>
+                                        <div class="timeline-content">
+                                            <h4>Artificial Intelligence (CS503)</h4>
+                                            <span class="timeline-date"><i class="fa-regular fa-clock"></i> 3 August</span>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot primary"></div>
+                                        <div class="timeline-content">
+                                            <h4>Operating Systems (CS504)</h4>
+                                            <span class="timeline-date"><i class="fa-regular fa-clock"></i> 5 August</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- RECENT ACTIVITY -->
+                            <section class="activity-section glass-card fade-up" style="animation-delay: 0.7s;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <h2 class="section-title"><i class="fa-solid fa-clock-rotate-left success-text"></i> Recent Activity</h2>
+                                    <button class="btn-link" id="refreshActivityBtn" style="background:none; border:none; color:var(--text-muted); cursor:pointer;" title="Refresh"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                                <div class="timeline" id="recentActivityList">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     VIEW 2: GIVE FEEDBACK
+                     ========================================== -->
+                <section id="view-give-feedback" class="app-view">
+                    <div class="page-header">
+                        <div class="page-header-text">
+                            <h1><i class="fa-solid fa-pen-to-square"></i> Give Faculty Feedback</h1>
+                            <p>Evaluate your course faculty across key academic dimensions. Honest reviews make education better.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-secondary" id="loadDraftBtn"><i class="fa-solid fa-file-lines"></i> Restore Draft</button>
+                        </div>
+                    </div>
+
+                    <div class="form-card glass-card">
+                        <form id="mainFeedbackForm">
+                            <!-- Select Subject -->
+                            <div class="form-group">
+                                <label class="form-label" for="feedbackSubjectSelect">
+                                    <i class="fa-solid fa-book primary-text"></i> Select Subject to Evaluate:
+                                </label>
+                                <select id="feedbackSubjectSelect" class="form-select" required>
+                                    <option value="" disabled selected>-- Choose a Subject / Faculty --</option>
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+
+                            <!-- Selected Faculty Preview Card -->
+                            <div class="selected-faculty-preview" id="feedbackFacultyCard" style="display: none;">
+                                <img src="https://ui-avatars.com/api/?name=Dr+Sharma" alt="Faculty Avatar" class="faculty-avatar" id="ffCardAvatar">
+                                <div class="faculty-preview-info">
+                                    <h4 id="ffCardName">Dr. Sharma</h4>
+                                    <p id="ffCardRole">Professor • Department of Computer Science & Engineering</p>
+                                    <div class="faculty-badges">
+                                        <span class="faculty-badge" id="ffCardSubject"><i class="fa-solid fa-graduation-cap"></i> DBMS (CS501)</span>
+                                        <span class="faculty-badge" id="ffCardRoom"><i class="fa-solid fa-location-dot"></i> Room 302</span>
+                                        <span class="faculty-badge" id="ffCardCredits"><i class="fa-solid fa-award"></i> 4 Credits</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Score Banner -->
+                            <div class="score-summary-banner">
+                                <div class="score-summary-left">
+                                    <div class="score-big-circle" id="formOverallScoreBadge">0.0</div>
+                                    <div class="score-summary-text">
+                                        <h3 id="formOverallScoreLabel">Unrated</h3>
+                                        <p>Overall calculated score across all 5 evaluation metrics</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="badge" style="background:var(--success); color:white; padding:6px 14px; border-radius:20px;">
+                                        <i class="fa-solid fa-shield-halved"></i> Anonymous Mode Available
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- 5 Evaluation Criteria -->
+                            <h3 class="section-title" style="margin-top:25px; margin-bottom:15px;">
+                                <i class="fa-solid fa-star primary-text"></i> Evaluation Parameters
+                            </h3>
+
+                            <!-- Metric 1: Teaching Methodology -->
+                            <div class="rating-criteria-card" data-metric="teaching">
+                                <div class="criteria-info">
+                                    <h4>1. Teaching Methodology & Subject Clarity</h4>
+                                    <p>Explains complex topics clearly, uses effective practical examples, maintains engaging lectures.</p>
+                                </div>
+                                <div class="stars-container">
+                                    <div class="star-group" data-metric="teaching">
+                                        <button type="button" class="star-btn" data-value="1" title="Poor"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="2" title="Fair"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="3" title="Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="4" title="Very Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="5" title="Excellent"><i class="fa-solid fa-star"></i></button>
+                                    </div>
+                                    <span class="star-score-text" id="score-text-teaching">Not Rated</span>
+                                </div>
+                            </div>
+
+                            <!-- Metric 2: Syllabus Coverage & Punctuality -->
+                            <div class="rating-criteria-card" data-metric="coverage">
+                                <div class="criteria-info">
+                                    <h4>2. Course Coverage & Lecture Punctuality</h4>
+                                    <p>Completes course syllabus according to timeline, arrives on time, and maintains regularity.</p>
+                                </div>
+                                <div class="stars-container">
+                                    <div class="star-group" data-metric="coverage">
+                                        <button type="button" class="star-btn" data-value="1" title="Poor"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="2" title="Fair"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="3" title="Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="4" title="Very Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="5" title="Excellent"><i class="fa-solid fa-star"></i></button>
+                                    </div>
+                                    <span class="star-score-text" id="score-text-coverage">Not Rated</span>
+                                </div>
+                            </div>
+
+                            <!-- Metric 3: Practical & Lab Guidance -->
+                            <div class="rating-criteria-card" data-metric="lab">
+                                <div class="criteria-info">
+                                    <h4>3. Practical Hands-On & Lab Support</h4>
+                                    <p>Guides coding/experiment labs effectively, provides helpful resources, and encourages practical skills.</p>
+                                </div>
+                                <div class="stars-container">
+                                    <div class="star-group" data-metric="lab">
+                                        <button type="button" class="star-btn" data-value="1" title="Poor"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="2" title="Fair"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="3" title="Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="4" title="Very Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="5" title="Excellent"><i class="fa-solid fa-star"></i></button>
+                                    </div>
+                                    <span class="star-score-text" id="score-text-lab">Not Rated</span>
+                                </div>
+                            </div>
+
+                            <!-- Metric 4: Doubt Solving & Approachability -->
+                            <div class="rating-criteria-card" data-metric="doubts">
+                                <div class="criteria-info">
+                                    <h4>4. Doubt Resolution & Approachability</h4>
+                                    <p>Answers student questions patiently, is approachable outside class hours, and encourages inquiry.</p>
+                                </div>
+                                <div class="stars-container">
+                                    <div class="star-group" data-metric="doubts">
+                                        <button type="button" class="star-btn" data-value="1" title="Poor"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="2" title="Fair"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="3" title="Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="4" title="Very Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="5" title="Excellent"><i class="fa-solid fa-star"></i></button>
+                                    </div>
+                                    <span class="star-score-text" id="score-text-doubts">Not Rated</span>
+                                </div>
+                            </div>
+
+                            <!-- Metric 5: Fairness in Evaluation -->
+                            <div class="rating-criteria-card" data-metric="fairness">
+                                <div class="criteria-info">
+                                    <h4>5. Fairness in Internal Grading & Feedback</h4>
+                                    <p>Evaluates assignments and midterms objectively, provides constructive feedback, and returns marks promptly.</p>
+                                </div>
+                                <div class="stars-container">
+                                    <div class="star-group" data-metric="fairness">
+                                        <button type="button" class="star-btn" data-value="1" title="Poor"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="2" title="Fair"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="3" title="Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="4" title="Very Good"><i class="fa-solid fa-star"></i></button>
+                                        <button type="button" class="star-btn" data-value="5" title="Excellent"><i class="fa-solid fa-star"></i></button>
+                                    </div>
+                                    <span class="star-score-text" id="score-text-fairness">Not Rated</span>
+                                </div>
+                            </div>
+
+                            <!-- Quick Attribute Tags -->
+                            <div class="tags-container">
+                                <label class="form-label"><i class="fa-solid fa-tags primary-text"></i> Quick Feedback Tags (Click to select)</label>
+                                <div class="tag-chips" id="feedbackTagsContainer">
+                                    <span class="tag-chip" data-tag="Clear Explanations"><i class="fa-solid fa-plus"></i> Clear Explanations</span>
+                                    <span class="tag-chip" data-tag="Engaging Lectures"><i class="fa-solid fa-plus"></i> Engaging Lectures</span>
+                                    <span class="tag-chip" data-tag="Helpful Notes & Slides"><i class="fa-solid fa-plus"></i> Helpful Notes & Slides</span>
+                                    <span class="tag-chip" data-tag="Great Lab Mentorship"><i class="fa-solid fa-plus"></i> Great Lab Mentorship</span>
+                                    <span class="tag-chip" data-tag="Punctual & Disciplined"><i class="fa-solid fa-plus"></i> Punctual & Disciplined</span>
+                                    <span class="tag-chip" data-tag="Fair Grading"><i class="fa-solid fa-plus"></i> Fair Grading</span>
+                                    <span class="tag-chip" data-tag="Needs More Practical Examples"><i class="fa-solid fa-plus"></i> Needs More Practical Examples</span>
+                                    <span class="tag-chip" data-tag="Fast Paced Lectures"><i class="fa-solid fa-plus"></i> Fast Paced Lectures</span>
+                                    <span class="tag-chip" data-tag="Encouraging & Patient"><i class="fa-solid fa-plus"></i> Encouraging & Patient</span>
+                                </div>
+                            </div>
+
+                            <!-- Comments / Suggestions Textarea -->
+                            <div class="form-group">
+                                <label class="form-label" for="feedbackComment">
+                                    <i class="fa-solid fa-comment-dots primary-text"></i> Detailed Comments & Recommendations:
+                                </label>
+                                <textarea id="feedbackComment" class="form-textarea" maxlength="500" placeholder="Describe your experience with this course, teaching highlights, areas for improvement, or suggestions for the faculty..."></textarea>
+                                <div class="char-counter"><span id="commentCharCount">0</span> / 500 characters</div>
+                            </div>
+
+                            <!-- Privacy / Anonymity Checkbox (Email sending removed as requested) -->
+                            <div style="margin: 20px 0;">
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="anonymousCheckbox" checked>
+                                    <span class="checkbox-label">
+                                        <strong>Submit Anonymously</strong> (Your name and roll number will NEVER be displayed to the faculty).
+                                    </span>
+                                </label>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:25px;">
+                                <button type="submit" class="btn btn-primary ripple" id="submitFeedbackBtn">
+                                    <i class="fa-solid fa-paper-plane"></i> Submit Feedback
+                                </button>
+                                <button type="button" class="btn btn-secondary ripple" id="saveDraftBtn">
+                                    <i class="fa-solid fa-floppy-disk"></i> Save Draft
+                                </button>
+                                <button type="button" class="btn btn-outline ripple" id="resetFormBtn">
+                                    <i class="fa-solid fa-arrow-rotate-left"></i> Reset
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     VIEW 3: SUBJECTS
+                     ========================================== -->
+                <section id="view-subjects" class="app-view">
+                    <div class="page-header">
+                        <div class="page-header-text">
+                            <h1><i class="fa-solid fa-book"></i> Enrolled Subjects & Faculty</h1>
+                            <p>Browse your registered courses for Semester 5, view faculty credentials, course credits, and review status.</p>
+                        </div>
+                        <div class="header-actions">
+                            <a href="#give-feedback" class="btn btn-primary ripple"><i class="fa-solid fa-pen-to-square"></i> Give Feedback</a>
+                        </div>
+                    </div>
+
+                    <!-- Toolbar (Search & Filter Tabs) -->
+                    <div class="toolbar-container">
+                        <div class="filter-tabs" id="subjectFilterTabs">
+                            <button class="filter-btn active" data-filter="all">All Subjects (<span id="countAllSubjects">6</span>)</button>
+                            <button class="filter-btn" data-filter="pending">Pending Feedback (<span id="countPendingSubjects">3</span>)</button>
+                            <button class="filter-btn" data-filter="completed">Completed (<span id="countCompletedSubjects">3</span>)</button>
+                        </div>
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" id="subjectSearchInput" placeholder="Search subject, faculty, or code...">
+                        </div>
+                    </div>
+
+                    <!-- Subjects Grid -->
+                    <div class="subjects-grid" id="fullSubjectsGrid">
+                        <!-- Populated dynamically -->
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     VIEW 4: FEEDBACK HISTORY
+                     ========================================== -->
+                <section id="view-feedback-history" class="app-view">
+                    <div class="page-header">
+                        <div class="page-header-text">
+                            <h1><i class="fa-solid fa-clock-rotate-left"></i> Feedback Submission History</h1>
+                            <p>Record of all submitted course evaluations, timestamped verification, and printable academic receipts.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-secondary ripple" id="exportHistoryCsvBtn"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+                            <button class="btn btn-secondary ripple" id="exportHistoryJsonBtn"><i class="fa-solid fa-file-code"></i> Export JSON</button>
+                        </div>
+                    </div>
+
+                    <!-- History Stats Cards -->
+                    <section class="stats-grid" style="margin-bottom: 25px;">
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+                            <div class="stat-info">
+                                <h3>Total Submitted</h3>
+                                <p class="stat-value" id="historySubmittedCount">3</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon warning"><i class="fa-solid fa-star"></i></div>
+                            <div class="stat-info">
+                                <h3>Average Rating Given</h3>
+                                <p class="stat-value" id="historyAvgRating">4.7 ★</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon primary"><i class="fa-solid fa-user-secret"></i></div>
+                            <div class="stat-info">
+                                <h3>Anonymous Reviews</h3>
+                                <p class="stat-value" id="historyAnonCount">3</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon danger"><i class="fa-solid fa-clock"></i></div>
+                            <div class="stat-info">
+                                <h3>Pending Courses</h3>
+                                <p class="stat-value" id="historyPendingCount">3</p>
                             </div>
                         </div>
                     </section>
 
-                    <!-- 6. SUBJECT CARDS -->
-                    <section class="subjects-section fade-up" style="animation-delay: 0.6s;">
-                        <h2 class="section-title">Subjects</h2>
-                        <div class="subjects-grid">
-                            <!-- Card 1 -->
-                            <div class="subject-card glass-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon primary"><i class="fa-solid fa-database"></i></div>
-                                    <span class="status-badge pending">Pending</span>
-                                </div>
-                                <h3>Database Management Systems</h3>
-                                <p class="faculty-name"><i class="fa-solid fa-user-tie"></i> Dr. Sharma</p>
-                                <button class="btn btn-outline ripple">Give Feedback</button>
+                    <!-- History Table Container -->
+                    <div class="table-responsive">
+                        <table class="custom-table" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>Subject Code</th>
+                                    <th>Course Title</th>
+                                    <th>Faculty Member</th>
+                                    <th>Submission Date</th>
+                                    <th>Overall Rating</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     VIEW 5: ANALYTICS
+                     ========================================== -->
+                <section id="view-analytics" class="app-view">
+                    <div class="page-header">
+                        <div class="page-header-text">
+                            <h1><i class="fa-solid fa-chart-line"></i> Course & Faculty Analytics</h1>
+                            <p>Real-time analytics and rating distributions compiled from student feedback across Semester 5.</p>
+                        </div>
+                        <div class="header-actions">
+                            <span class="detail-badge"><i class="fa-solid fa-rotate"></i> Updated Live</span>
+                        </div>
+                    </div>
+
+                    <!-- Top Analytics Metric Cards -->
+                    <section class="stats-grid" style="margin-bottom: 25px;">
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon primary"><i class="fa-solid fa-chart-pie"></i></div>
+                            <div class="stat-info">
+                                <h3>Feedback Completion</h3>
+                                <p class="stat-value" id="analyticsCompletionPct">50%</p>
                             </div>
-                            
-                            <!-- Card 2 -->
-                            <div class="subject-card glass-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon success"><i class="fa-brands fa-java"></i></div>
-                                    <span class="status-badge completed">Completed</span>
-                                </div>
-                                <h3>Java Programming</h3>
-                                <p class="faculty-name"><i class="fa-solid fa-user-tie"></i> Prof. Verma</p>
-                                <button class="btn btn-success ripple">View Submission</button>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon warning"><i class="fa-solid fa-award"></i></div>
+                            <div class="stat-info">
+                                <h3>Institute Score Avg</h3>
+                                <p class="stat-value" id="analyticsAvgScore">4.7 / 5.0</p>
                             </div>
-                            
-                            <!-- Card 3 -->
-                            <div class="subject-card glass-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon secondary"><i class="fa-solid fa-brain"></i></div>
-                                    <span class="status-badge pending">Pending</span>
-                                </div>
-                                <h3>Artificial Intelligence</h3>
-                                <p class="faculty-name"><i class="fa-solid fa-user-tie"></i> Dr. Singh</p>
-                                <button class="btn btn-outline ripple">Give Feedback</button>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon success"><i class="fa-solid fa-trophy"></i></div>
+                            <div class="stat-info">
+                                <h3>Top Rated Course</h3>
+                                <p class="stat-value" style="font-size:1.15rem;" id="analyticsTopCourse">Java (4.8 ★)</p>
                             </div>
-                            
-                            <!-- Card 4 -->
-                            <div class="subject-card glass-card">
-                                <div class="subject-header">
-                                    <div class="subject-icon warning"><i class="fa-solid fa-microchip"></i></div>
-                                    <span class="status-badge pending">Pending</span>
-                                </div>
-                                <h3>Operating Systems</h3>
-                                <p class="faculty-name"><i class="fa-solid fa-user-tie"></i> Prof. Gupta</p>
-                                <button class="btn btn-outline ripple">Give Feedback</button>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon success"><i class="fa-solid fa-face-smile"></i></div>
+                            <div class="stat-info">
+                                <h3>Positive Sentiment</h3>
+                                <p class="stat-value">91%</p>
                             </div>
                         </div>
                     </section>
 
-                    <!-- 10. DEVELOPMENT STATUS (Roadmap) -->
-                    <section class="roadmap-section glass-card fade-up" style="animation-delay: 0.7s;">
-                        <h2 class="section-title">Project Roadmap</h2>
-                        <div class="roadmap-progress">
-                            <div class="progress-header">
-                                <span>Overall Project Progress</span>
-                                <span class="progress-text">25%</span>
+                    <!-- Analytics Charts Grid -->
+                    <div class="analytics-grid">
+                        <!-- Chart 1: Faculty Benchmark -->
+                        <div class="chart-card glass-card">
+                            <div class="chart-header">
+                                <h3><i class="fa-solid fa-chart-simple primary-text"></i> Faculty Ratings Benchmark</h3>
+                                <span class="chart-badge">5-Star Scale</span>
                             </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill secondary-fill" style="width: 0%" data-width="25%"></div>
+                            <div class="bar-chart-container" id="analyticsFacultyBars">
+                                <!-- Populated dynamically -->
                             </div>
                         </div>
-                        <div class="roadmap-grid">
-                            <div class="roadmap-item completed">
-                                <i class="fa-solid fa-check-circle"></i>
-                                <span>Homepage Completed</span>
+
+                        <!-- Chart 2: Parameter Breakdown -->
+                        <div class="chart-card glass-card">
+                            <div class="chart-header">
+                                <h3><i class="fa-solid fa-sliders primary-text"></i> Parameter-Wise Breakdown</h3>
+                                <span class="chart-badge">Evaluation Avg</span>
                             </div>
-                            <div class="roadmap-item in-progress">
-                                <i class="fa-solid fa-circle-dot"></i>
-                                <span>Login Module (In Progress)</span>
+                            <div class="bar-chart-container" id="analyticsParameterBars">
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>Teaching Methodology & Clarity</span>
+                                        <span id="paramTeachingScore">4.8 / 5.0</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic" id="paramTeachingBar" style="width: 96%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>Course Coverage & Punctuality</span>
+                                        <span id="paramCoverageScore">4.6 / 5.0</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic warning" id="paramCoverageBar" style="width: 92%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>Practical Hands-on & Lab Support</span>
+                                        <span id="paramLabScore">4.9 / 5.0</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic success" id="paramLabBar" style="width: 98%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>Doubt Resolution & Helpfulness</span>
+                                        <span id="paramDoubtsScore">4.7 / 5.0</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic" id="paramDoubtsBar" style="width: 94%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>Fairness in Internal Grading</span>
+                                        <span id="paramFairnessScore">4.5 / 5.0</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic warning" id="paramFairnessBar" style="width: 90%;"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="roadmap-item coming-soon">
-                                <i class="fa-regular fa-circle"></i>
-                                <span>Feedback Form (Coming Soon)</span>
+                        </div>
+
+                        <!-- Chart 3: Sentiment & Feedback Tags -->
+                        <div class="chart-card glass-card">
+                            <div class="chart-header">
+                                <h3><i class="fa-solid fa-comments primary-text"></i> Student Sentiment Index</h3>
+                                <span class="chart-badge">NLP Synthesis</span>
                             </div>
-                            <div class="roadmap-item coming-soon">
-                                <i class="fa-regular fa-circle"></i>
-                                <span>Analytics Dashboard (Coming Soon)</span>
+                            <div class="sentiment-container">
+                                <div class="sentiment-seg positive" style="width: 82%;" title="Positive: 82%"></div>
+                                <div class="sentiment-seg neutral" style="width: 12%;" title="Neutral: 12%"></div>
+                                <div class="sentiment-seg critical" style="width: 6%;" title="Constructive: 6%"></div>
                             </div>
-                            <div class="roadmap-item coming-soon">
-                                <i class="fa-regular fa-circle"></i>
-                                <span>Faculty Panel (Coming Soon)</span>
+                            <div class="sentiment-legend">
+                                <span><span class="legend-dot" style="background:var(--success);"></span> Positive (82%)</span>
+                                <span><span class="legend-dot" style="background:var(--warning);"></span> Neutral (12%)</span>
+                                <span><span class="legend-dot" style="background:var(--danger);"></span> Constructive (6%)</span>
                             </div>
-                            <div class="roadmap-item coming-soon">
-                                <i class="fa-regular fa-circle"></i>
-                                <span>Admin Panel (Coming Soon)</span>
+                            <div style="margin-top: 24px;">
+                                <h4 style="font-size: 0.9rem; margin-bottom: 10px; color: var(--text-main);">Most Frequent Attributes:</h4>
+                                <div class="tag-chips">
+                                    <span class="tag-chip active" style="pointer-events: none;"><i class="fa-solid fa-check"></i> Clear Explanations (38)</span>
+                                    <span class="tag-chip active" style="pointer-events: none;"><i class="fa-solid fa-check"></i> Great Lab Mentorship (31)</span>
+                                    <span class="tag-chip active" style="pointer-events: none;"><i class="fa-solid fa-check"></i> Helpful Notes (27)</span>
+                                    <span class="tag-chip" style="pointer-events: none;">Punctual (22)</span>
+                                    <span class="tag-chip" style="pointer-events: none;">Engaging Lectures (19)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart 4: Rating Distribution -->
+                        <div class="chart-card glass-card">
+                            <div class="chart-header">
+                                <h3><i class="fa-solid fa-star-half-stroke primary-text"></i> Rating Distribution</h3>
+                                <span class="chart-badge">Overall Stars</span>
+                            </div>
+                            <div class="bar-chart-container">
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>5 Stars (Excellent)</span>
+                                        <span>72%</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic success" style="width: 72%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>4 Stars (Very Good)</span>
+                                        <span>22%</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic" style="width: 22%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>3 Stars (Good)</span>
+                                        <span>5%</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic warning" style="width: 5%;"></div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-row-header">
+                                        <span>1-2 Stars (Fair / Poor)</span>
+                                        <span>1%</span>
+                                    </div>
+                                    <div class="bar-track">
+                                        <div class="bar-fill-dynamic" style="background:var(--danger); width: 1%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     VIEW 6: SETTINGS
+                     ========================================== -->
+                <section id="view-settings" class="app-view">
+                    <div class="page-header">
+                        <div class="page-header-text">
+                            <h1><i class="fa-solid fa-gear"></i> Portal Settings & Profile</h1>
+                            <p>Manage your student credentials, avatar customization, and local feedback data.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <!-- Left: Profile Form -->
+                        <div class="form-card glass-card">
+                            <h3 class="section-title"><i class="fa-solid fa-user-pen primary-text"></i> Student Profile</h3>
+                            <form id="profileSettingsForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="settingName">Full Name</label>
+                                        <input type="text" id="settingName" class="form-control" value="Naman Sardana" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="settingRollNo">Roll Number / Student ID</label>
+                                        <input type="text" id="settingRollNo" class="form-control" value="22CSE1042" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="settingEmail">Student Email ID</label>
+                                        <input type="email" id="settingEmail" class="form-control" value="naman.sardana@college.edu" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="settingBranch">Branch / Department</label>
+                                        <input type="text" id="settingBranch" class="form-control" value="Computer Science Engineering" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="settingSemester">Current Semester</label>
+                                        <select id="settingSemester" class="form-select">
+                                            <option value="Semester 1">Semester 1</option>
+                                            <option value="Semester 2">Semester 2</option>
+                                            <option value="Semester 3">Semester 3</option>
+                                            <option value="Semester 4">Semester 4</option>
+                                            <option value="Semester 5" selected>Semester 5</option>
+                                            <option value="Semester 6">Semester 6</option>
+                                            <option value="Semester 7">Semester 7</option>
+                                            <option value="Semester 8">Semester 8</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Choose Avatar Preset</label>
+                                        <div class="avatar-selector" id="avatarSelectorGrid">
+                                            <img src="https://ui-avatars.com/api/?name=Naman+Sardana&background=F97316&color=fff&rounded=true" class="avatar-option selected" data-avatar="https://ui-avatars.com/api/?name=Naman+Sardana&background=F97316&color=fff&rounded=true" alt="Avatar 1">
+                                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&crop=faces" class="avatar-option" data-avatar="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&crop=faces" alt="Avatar 2">
+                                            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&h=100&fit=crop&crop=faces" class="avatar-option" data-avatar="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&h=100&fit=crop&crop=faces" alt="Avatar 3">
+                                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces" class="avatar-option" data-avatar="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces" alt="Avatar 4">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary ripple" style="margin-top:15px;">
+                                    <i class="fa-solid fa-floppy-disk"></i> Save Profile Details
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Right: Preferences & Data Control -->
+                        <div style="display:flex; flex-direction:column; gap:25px;">
+                            <div class="form-card glass-card">
+                                <h3 class="section-title"><i class="fa-solid fa-sliders primary-text"></i> System Preferences</h3>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="prefDefaultAnonymous" checked>
+                                    <span class="checkbox-label">Default to Anonymous Submissions</span>
+                                </label>
+                                <label class="checkbox-group">
+                                    <input type="checkbox" id="prefDeadlineAlerts" checked>
+                                    <span class="checkbox-label">Deadline & Announcement Notifications</span>
+                                </label>
+                            </div>
+
+                            <div class="form-card glass-card">
+                                <h3 class="section-title"><i class="fa-solid fa-database primary-text"></i> Data Backup & Reset</h3>
+                                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">
+                                    All submissions and activities are saved in your browser's persistent storage.
+                                </p>
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+                                    <button class="btn btn-secondary ripple" id="settingsExportJsonBtn"><i class="fa-solid fa-download"></i> Export Data (JSON)</button>
+                                    <button class="btn btn-secondary ripple" id="settingsExportCsvBtn"><i class="fa-solid fa-file-csv"></i> Export Report (CSV)</button>
+                                    <button class="btn btn-outline ripple" id="settingsResetDataBtn" style="color:var(--danger); border-color:var(--danger);"><i class="fa-solid fa-trash-can"></i> Reset to Default Demo Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     VIEW 7: HELP & FAQ
+                     ========================================== -->
+                <section id="view-help" class="app-view">
+                    <div class="page-header">
+                        <div class="page-header-text">
+                            <h1><i class="fa-solid fa-circle-question"></i> Help Center & Student Guidelines</h1>
+                            <p>Common questions about feedback confidentiality, grading protection, evaluation guidelines, and technical support.</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-layout">
+                        <!-- Left: FAQ Accordion -->
+                        <div class="main-column">
+                            <div class="glass-card" style="padding: 30px;">
+                                <h3 class="section-title"><i class="fa-solid fa-circle-question primary-text"></i> Frequently Asked Questions</h3>
+                                <div class="faq-grid" id="faqAccordion">
+                                    <div class="faq-item open">
+                                        <div class="faq-question">
+                                            <span>Is my feedback really 100% anonymous?</span>
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </div>
+                                        <div class="faq-answer">
+                                            Yes. When you choose "Submit Anonymously", your name, roll number, and student identifier are scrubbed before reaching the faculty dashboard. Only aggregated statistics and anonymous commentary are surfaced to professors and department heads.
+                                        </div>
+                                    </div>
+                                    <div class="faq-item">
+                                        <div class="faq-question">
+                                            <span>Can faculty members see who gave specific low ratings?</span>
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </div>
+                                        <div class="faq-answer">
+                                            No. Faculty members only view aggregated averages across the 5 dimensions (Teaching Methodology, Syllabus Coverage, Lab Support, Doubt Resolution, and Grading Fairness). They cannot trace individual scores back to any student.
+                                        </div>
+                                    </div>
+                                    <div class="faq-item">
+                                        <div class="faq-question">
+                                            <span>Can I edit my feedback after submission?</span>
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </div>
+                                        <div class="faq-answer">
+                                            Yes! You can view and update your submitted feedback from the "Feedback History" tab anytime before the semester evaluation deadline (5 August).
+                                        </div>
+                                    </div>
+                                    <div class="faq-item">
+                                        <div class="faq-question">
+                                            <span>What happens if I miss the feedback deadline?</span>
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </div>
+                                        <div class="faq-answer">
+                                            Submitting semester feedback is mandatory for releasing final semester grade cards and hall tickets on the university portal. Please ensure all pending courses are evaluated before the deadline.
+                                        </div>
+                                    </div>
+                                    <div class="faq-item">
+                                        <div class="faq-question">
+                                            <span>How is student feedback used by the academic board?</span>
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </div>
+                                        <div class="faq-answer">
+                                            The Academic Committee reviews departmental feedback biannually. Scores directly influence faculty teaching development, laboratory equipment upgrades, syllabus revisions, and teaching methodology improvements.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Constructive Guidelines Card -->
+                            <div class="glass-card" style="padding: 30px; margin-top:25px;">
+                                <h3 class="section-title"><i class="fa-solid fa-lightbulb primary-text"></i> Guidelines for Constructive Feedback</h3>
+                                <ul style="list-style:none; display:flex; flex-direction:column; gap:12px;">
+                                    <li style="display:flex; gap:10px; font-size:0.9rem; color:var(--text-main);"><i class="fa-solid fa-check-circle success-text" style="margin-top:4px;"></i> <strong>Be Specific:</strong> Mention particular units, assignments, or teaching techniques that helped or hindered your learning.</li>
+                                    <li style="display:flex; gap:10px; font-size:0.9rem; color:var(--text-main);"><i class="fa-solid fa-check-circle success-text" style="margin-top:4px;"></i> <strong>Focus on Academics:</strong> Frame comments around course structure, lab mentorship, pacing, and clarity rather than personal traits.</li>
+                                    <li style="display:flex; gap:10px; font-size:0.9rem; color:var(--text-main);"><i class="fa-solid fa-check-circle success-text" style="margin-top:4px;"></i> <strong>Offer Solutions:</strong> If a lab needs more practical coding sessions, recommend adding interactive workshops or practice tasks.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Right: Support Contact Form -->
+                        <div class="side-column">
+                            <div class="form-card glass-card">
+                                <h3 class="section-title"><i class="fa-solid fa-headset primary-text"></i> Contact Academic Helpdesk</h3>
+                                <form id="supportTicketForm">
+                                    <div class="form-group">
+                                        <label class="form-label" for="supportCategory">Inquiry Category</label>
+                                        <select id="supportCategory" class="form-select">
+                                            <option value="technical">Technical Glitch / Bug</option>
+                                            <option value="course_issue">Course Missing from List</option>
+                                            <option value="privacy">Privacy / Anonymity Query</option>
+                                            <option value="general">General Academic Inquiries</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="supportSubject">Subject / Issue Title</label>
+                                        <input type="text" id="supportSubject" class="form-control" placeholder="Brief description of the problem..." required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="supportMessage">Message Details</label>
+                                        <textarea id="supportMessage" class="form-textarea" placeholder="Provide complete details..." style="min-height:90px;" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary ripple" style="width:100%;">
+                                        <i class="fa-solid fa-paper-plane"></i> Submit Ticket
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Direct Contacts Card -->
+                            <div class="glass-card" style="padding: 25px;">
+                                <h4 style="font-size:1rem; margin-bottom:12px; color:var(--text-main);"><i class="fa-solid fa-building-columns primary-text"></i> University Contacts</h4>
+                                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><i class="fa-solid fa-envelope"></i> feedback-support@college.edu</p>
+                                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><i class="fa-solid fa-phone"></i> +91 (011) 2874-5000 (Ext. 204)</p>
+                                <p style="font-size:0.85rem; color:var(--text-muted);"><i class="fa-solid fa-clock"></i> Mon - Fri: 9:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     VIEW 8: FACULTY EVALUATION PORTAL
+                     ========================================== -->
+                <section id="view-faculty" class="app-view">
+                    <div class="page-header">
+                        <div class="page-header-text">
+                            <h1><i class="fa-solid fa-chalkboard-user"></i> Faculty Evaluation Portal</h1>
+                            <p>Viewing as <strong>Dr. Sharma</strong> (Professor & Course Coordinator - Database Management Systems).</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-primary ripple" id="returnToStudentFromFaculty"><i class="fa-solid fa-arrow-left"></i> Return to Student View</button>
+                        </div>
+                    </div>
+
+                    <div class="role-banner">
+                        <div class="role-badge-tag">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>Faculty Performance Overview • Semester 5 Feedback Summary</span>
+                        </div>
+                        <span class="semester-badge">CS501 - Database Systems</span>
+                    </div>
+
+                    <!-- Faculty Metric Cards -->
+                    <section class="stats-grid">
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon primary"><i class="fa-solid fa-users"></i></div>
+                            <div class="stat-info">
+                                <h3>Students Evaluated</h3>
+                                <p class="stat-value">48 / 52</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon warning"><i class="fa-solid fa-star"></i></div>
+                            <div class="stat-info">
+                                <h3>Overall Faculty Rating</h3>
+                                <p class="stat-value">4.8 ★</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon success"><i class="fa-solid fa-thumbs-up"></i></div>
+                            <div class="stat-info">
+                                <h3>Recommendation</h3>
+                                <p class="stat-value">96%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon success"><i class="fa-solid fa-flask"></i></div>
+                            <div class="stat-info">
+                                <h3>Lab Guidance Score</h3>
+                                <p class="stat-value">4.9 ★</p>
                             </div>
                         </div>
                     </section>
+
+                    <!-- Faculty Student Reviews Feed -->
+                    <div class="form-card glass-card">
+                        <h3 class="section-title"><i class="fa-solid fa-comments primary-text"></i> Anonymous Student Feedback Stream</h3>
+                        <div style="display:flex; flex-direction:column; gap:16px;" id="facultyReviewsStream">
+                            <div style="padding:16px 20px; border-radius:14px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border);">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                    <span style="font-weight:600; font-size:0.9rem; color:var(--text-main);"><i class="fa-solid fa-user-secret"></i> Verified Student (Anonymous)</span>
+                                    <span class="table-rating-badge">★ 5.0 - Excellent</span>
+                                </div>
+                                <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
+                                    "Dr. Sharma's explanations on SQL normalization and transaction concurrency control are second to none. He relates theoretical database concepts to real-world cloud architectures. Highly recommended."
+                                </p>
+                                <div class="tag-chips" style="margin-top:8px; margin-bottom:0;">
+                                    <span class="tag-chip active" style="font-size:0.75rem; padding:4px 10px;">Clear Explanations</span>
+                                    <span class="tag-chip active" style="font-size:0.75rem; padding:4px 10px;">Great Notes & Slides</span>
+                                </div>
+                            </div>
+
+                            <div style="padding:16px 20px; border-radius:14px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border);">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                    <span style="font-weight:600; font-size:0.9rem; color:var(--text-main);"><i class="fa-solid fa-user-secret"></i> Verified Student (Anonymous)</span>
+                                    <span class="table-rating-badge">★ 4.6 - Very Good</span>
+                                </div>
+                                <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
+                                    "The laboratory sessions using PostgreSQL and index tuning were super practical. Would love to have a few more problem-solving sessions on B+ Tree indexing."
+                                </p>
+                                <div class="tag-chips" style="margin-top:8px; margin-bottom:0;">
+                                    <span class="tag-chip active" style="font-size:0.75rem; padding:4px 10px;">Great Lab Mentorship</span>
+                                    <span class="tag-chip" style="font-size:0.75rem; padding:4px 10px;">Needs More Practice Problems</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     VIEW 9: ADMIN & DEAN'S PANEL
+                     ========================================== -->
+                <section id="view-admin" class="app-view">
+                    <div class="page-header">
+                        <div class="page-header-text">
+                            <h1><i class="fa-solid fa-shield-halved"></i> Dean of Academics • College Admin Panel</h1>
+                            <p>Institutional oversight, department response rates, faculty ranking tables, and accreditation reports.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-secondary ripple" id="adminDownloadReportBtn"><i class="fa-solid fa-download"></i> Download Full College Report</button>
+                            <button class="btn btn-primary ripple" id="returnToStudentFromAdmin"><i class="fa-solid fa-arrow-left"></i> Return to Student View</button>
+                        </div>
+                    </div>
+
+                    <!-- Admin Metrics -->
+                    <section class="stats-grid">
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon primary"><i class="fa-solid fa-graduation-cap"></i></div>
+                            <div class="stat-info">
+                                <h3>Total College Submissions</h3>
+                                <p class="stat-value">1,428</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon success"><i class="fa-solid fa-chart-line"></i></div>
+                            <div class="stat-info">
+                                <h3>College Response Rate</h3>
+                                <p class="stat-value">84.2%</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon warning"><i class="fa-solid fa-star"></i></div>
+                            <div class="stat-info">
+                                <h3>Institute Average</h3>
+                                <p class="stat-value">4.62 ★</p>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div class="stat-info">
+                                <h3>Low Response Alerts</h3>
+                                <p class="stat-value">2 Depts</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Faculty Ranking Table -->
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Faculty Name</th>
+                                    <th>Department</th>
+                                    <th>Course Title</th>
+                                    <th>Evaluated Count</th>
+                                    <th>Teaching Rating</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Dr. Sharma</strong></td>
+                                    <td>Computer Science</td>
+                                    <td>DBMS (CS501)</td>
+                                    <td>48 / 52</td>
+                                    <td><span class="table-rating-badge">★ 4.8</span></td>
+                                    <td><span class="status-badge completed">Excellent</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Prof. Verma</strong></td>
+                                    <td>Computer Science</td>
+                                    <td>Java Programming (CS502)</td>
+                                    <td>50 / 52</td>
+                                    <td><span class="table-rating-badge">★ 4.7</span></td>
+                                    <td><span class="status-badge completed">Excellent</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dr. Ananya Roy</strong></td>
+                                    <td>Computer Science</td>
+                                    <td>Computer Networks (CS505)</td>
+                                    <td>46 / 52</td>
+                                    <td><span class="table-rating-badge">★ 4.7</span></td>
+                                    <td><span class="status-badge completed">Excellent</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dr. Singh</strong></td>
+                                    <td>Computer Science</td>
+                                    <td>Artificial Intelligence (CS503)</td>
+                                    <td>38 / 52</td>
+                                    <td><span class="table-rating-badge">★ 4.5</span></td>
+                                    <td><span class="status-badge pending">In Progress</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Prof. Gupta</strong></td>
+                                    <td>Computer Science</td>
+                                    <td>Operating Systems (CS504)</td>
+                                    <td>35 / 52</td>
+                                    <td><span class="table-rating-badge">★ 4.4</span></td>
+                                    <td><span class="status-badge pending">In Progress</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div> <!-- /.dashboard-container -->
+
+            <!-- EXTENDED FOOTER -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <!-- About -->
+                    <div class="footer-section footer-about">
+                        <h3><i class="fa-solid fa-graduation-cap"></i> FeedbackPortal</h3>
+                        <p>A simple, transparent, and secure student feedback platform built to continuously elevate academic instruction, curriculum standards, and campus learning.</p>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="footer-section">
+                        <h4>Navigation</h4>
+                        <a href="#dashboard"><i class="fa-solid fa-house"></i> Dashboard</a>
+                        <a href="#give-feedback"><i class="fa-solid fa-pen-to-square"></i> Give Feedback</a>
+                        <a href="#subjects"><i class="fa-solid fa-book"></i> Enrolled Subjects</a>
+                        <a href="#feedback-history"><i class="fa-solid fa-clock-rotate-left"></i> Submissions</a>
+                    </div>
+
+                    <!-- Support -->
+                    <div class="footer-section">
+                        <h4>Support & Session</h4>
+                        <a href="#help"><i class="fa-solid fa-circle-question"></i> Help Center</a>
+                        <a href="#settings"><i class="fa-solid fa-gear"></i> Preferences</a>
+                        <a href="#" id="footerRoleSwitch"><i class="fa-solid fa-repeat"></i> Role Switcher</a>
+                        <a href="#" id="footerSignOutBtn" style="color:var(--danger);"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</a>
+                    </div>
+
+                    <!-- Information -->
+                    <div class="footer-section">
+                        <h4>Information</h4>
+                        <p><i class="fa-solid fa-calendar"></i> Semester 5 • Academic Year 2026</p>
+                        <p><i class="fa-solid fa-code"></i> Pure HTML5 / CSS3 / Vanilla JS</p>
+                        <p><i class="fa-solid fa-shield-halved"></i> End-to-End Confidential</p>
+                    </div>
                 </div>
 
-                <!-- Right Column (Sidebar Content) -->
-                <div class="side-column">
-                    <!-- 9. ANNOUNCEMENTS -->
-                    <section class="announcements-section glass-card fade-up" style="animation-delay: 0.5s;">
-                        <h2 class="section-title"><i class="fa-solid fa-bullhorn warning-text"></i> Announcement</h2>
-                        <div class="announcement-content">
-                            <p class="highlight-text">Feedback submission closes on 5 August.</p>
-                            <p>Complete all pending feedback before the deadline.</p>
-                        </div>
-                    </section>
-
-                    <!-- 7. UPCOMING DEADLINES -->
-                    <section class="deadlines-section glass-card fade-up" style="animation-delay: 0.6s;">
-                        <h2 class="section-title">Upcoming Deadlines</h2>
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-dot danger"></div>
-                                <div class="timeline-content">
-                                    <h4>Database Systems</h4>
-                                    <span class="timeline-date">Tomorrow</span>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot warning"></div>
-                                <div class="timeline-content">
-                                    <h4>Artificial Intelligence</h4>
-                                    <span class="timeline-date">3 August</span>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot primary"></div>
-                                <div class="timeline-content">
-                                    <h4>Operating Systems</h4>
-                                    <span class="timeline-date">5 August</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- 8. RECENT ACTIVITY -->
-                    <section class="activity-section glass-card fade-up" style="animation-delay: 0.7s;">
-                        <h2 class="section-title">Recent Activity</h2>
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-icon success"><i class="fa-solid fa-check"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Profile Updated</h4>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-icon success"><i class="fa-solid fa-check"></i></div>
-                                <div class="timeline-content">
-                                    <h4>AI Feedback Saved</h4>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-icon success"><i class="fa-solid fa-check"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Java Feedback Submitted</h4>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-icon success"><i class="fa-solid fa-check"></i></div>
-                                <div class="timeline-content">
-                                    <h4>Logged In</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                <div class="footer-bottom">
+                    <p>© 2026 Student Feedback System. All rights reserved.</p>
+                    <p class="credits">Designed & Developed by Naman Sardana • Fully Functional Portal</p>
                 </div>
+            </footer>
+        </main>
+    </div> <!-- /#appWrapper -->
+
+    <!-- ==========================================
+         MODALS & OVERLAYS
+         ========================================== -->
+
+    <!-- 1. Submission Details Modal -->
+    <div class="modal-overlay" id="submissionDetailsModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-file-invoice primary-text"></i> Submission Details</h3>
+                <button class="modal-close-btn" data-close-modal="submissionDetailsModal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="submissionDetailsContent">
+                <!-- Dynamically populated -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary ripple" id="printSubmissionBtn"><i class="fa-solid fa-print"></i> Print Receipt</button>
+                <button class="btn btn-primary ripple" data-close-modal="submissionDetailsModal">Close</button>
             </div>
         </div>
-
-        <!-- 11. FOOTER -->
-<footer class="footer">
-
-    <div class="footer-content">
-
-        <!-- About -->
-        <div class="footer-section footer-about">
-
-            <h3>
-                <i class="fa-solid fa-graduation-cap"></i>
-                FeedbackPortal
-            </h3>
-
-            <p>
-                A simple and efficient platform for students
-                to share their valuable feedback about their
-                academic experience.
-            </p>
-
-        </div>
-
-
-        <!-- Quick Links -->
-        <div class="footer-section">
-
-            <h4>Quick Links</h4>
-
-            <a href="#">
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-pen-to-square"></i>
-                Give Feedback
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-book"></i>
-                Subjects
-            </a>
-
-        </div>
-
-
-        <!-- Support -->
-        <div class="footer-section">
-
-            <h4>Support</h4>
-
-            <a href="#">
-                <i class="fa-solid fa-circle-question"></i>
-                Help Center
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-gear"></i>
-                Settings
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-envelope"></i>
-                Contact Us
-            </a>
-
-        </div>
-
-
-        <!-- Information -->
-        <div class="footer-section">
-
-            <h4>Information</h4>
-
-            <p>
-                <i class="fa-solid fa-calendar"></i>
-                Semester 5
-            </p>
-
-            <p>
-                <i class="fa-solid fa-code"></i>
-                Version 1.0
-            </p>
-
-            <p>
-                <i class="fa-solid fa-shield-halved"></i>
-                Student Portal
-            </p>
-
-        </div>
-
     </div>
 
-
-    <!-- Bottom Footer -->
-
-    <div class="footer-bottom">
-
-        <p>
-            © 2026 Student Feedback System. All rights reserved.
-        </p>
-
-        <p class="credits">
-            Designed & Developed by Naman Sardana
-        </p>
-
+    <!-- 2. Course Syllabus & Info Modal -->
+    <div class="modal-overlay" id="syllabusModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="syllabusModalTitle"><i class="fa-solid fa-book-open primary-text"></i> Course Syllabus</h3>
+                <button class="modal-close-btn" data-close-modal="syllabusModal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="syllabusModalContent">
+                <!-- Dynamically populated -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary ripple" data-close-modal="syllabusModal">Done</button>
+            </div>
+        </div>
     </div>
 
-</footer>
-    </main>
+    <!-- 3. Official Feedback Receipt Slip Modal -->
+    <div class="modal-overlay" id="receiptModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-certificate primary-text"></i> Official Verification Receipt</h3>
+                <button class="modal-close-btn" data-close-modal="receiptModal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="receipt-box" id="printableReceiptBox">
+                    <div class="receipt-header">
+                        <i class="fa-solid fa-graduation-cap" style="font-size:2rem; color:var(--primary); margin-bottom:8px;"></i>
+                        <h3 style="font-size:1.2rem; margin-bottom:4px;">University Student Feedback Receipt</h3>
+                        <p style="font-size:0.8rem; color:var(--text-muted);">Academic Year 2026 • Semester 5 Feedback</p>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Receipt ID:</span>
+                        <span id="receiptIdText">#REC-9824-2026</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Student Roll No:</span>
+                        <span id="receiptRollNo">22CSE1042</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Subject Evaluated:</span>
+                        <span id="receiptSubjectName">Database Management Systems</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Faculty Member:</span>
+                        <span id="receiptFacultyName">Dr. Sharma</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Overall Rating:</span>
+                        <span id="receiptRating">★ 4.8 / 5.0</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Submission Mode:</span>
+                        <span id="receiptMode">Anonymous Confidential</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Timestamp:</span>
+                        <span id="receiptTimestamp">October 25, 2026 - 10:45 AM</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Verification Status:</span>
+                        <span style="color:var(--success);"><i class="fa-solid fa-circle-check"></i> Recorded in Academic Ledger</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary ripple" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Slip</button>
+                <button class="btn btn-primary ripple" data-close-modal="receiptModal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Portal Persona Switcher Modal -->
+    <div class="modal-overlay" id="roleModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-users-gear primary-text"></i> Switch Portal Persona</h3>
+                <button class="modal-close-btn" data-close-modal="roleModal"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:20px;">
+                    Test and preview how different academic users experience the Feedback System:
+                </p>
+                <div style="display:flex; flex-direction:column; gap:14px;">
+                    <div class="rating-criteria-card" style="cursor:pointer;" id="switchRoleStudent">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <img src="https://ui-avatars.com/api/?name=Naman+Sardana&background=F97316&color=fff&rounded=true" style="width:48px; height:48px; border-radius:50%;" alt="Student">
+                            <div>
+                                <h4 style="margin-bottom:2px;">Student Mode (Naman Sardana)</h4>
+                                <p style="font-size:0.8rem; color:var(--text-muted);">Full student dashboard, interactive feedback submission form, history & receipts.</p>
+                            </div>
+                        </div>
+                        <span class="badge" style="background:var(--primary); color:white; padding:4px 12px; border-radius:12px;">Select</span>
+                    </div>
+
+                    <div class="rating-criteria-card" style="cursor:pointer;" id="switchRoleGuest">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--warning), var(--primary)); display:flex; align-items:center; justify-content:center; color:white; font-size:1.3rem;">
+                                <i class="fa-solid fa-user-ninja"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom:2px;">Guest Mode (Trial Explorer)</h4>
+                                <p style="font-size:0.8rem; color:var(--text-muted);">Explore courses, submit trial feedback, and test analytics without credentials.</p>
+                            </div>
+                        </div>
+                        <span class="badge" style="background:var(--warning); color:white; padding:4px 12px; border-radius:12px;">Select</span>
+                    </div>
+
+                    <div class="rating-criteria-card" style="cursor:pointer;" id="switchRoleFaculty">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" style="width:48px; height:48px; border-radius:50%;" alt="Faculty">
+                            <div>
+                                <h4 style="margin-bottom:2px;">Faculty Mode (Dr. Sharma - DBMS)</h4>
+                                <p style="font-size:0.8rem; color:var(--text-muted);">View teaching evaluations received from students, ratings summary, and comments.</p>
+                            </div>
+                        </div>
+                        <span class="badge" style="background:var(--secondary); color:white; padding:4px 12px; border-radius:12px;">Select</span>
+                    </div>
+
+                    <div class="rating-criteria-card" style="cursor:pointer;" id="switchRoleAdmin">
+                        <div style="display:flex; align-items:center; gap:14px;">
+                            <div style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg, var(--danger), var(--warning)); display:flex; align-items:center; justify-content:center; color:white; font-size:1.3rem;">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom:2px;">Admin Mode (Dean of Academics)</h4>
+                                <p style="font-size:0.8rem; color:var(--text-muted);">College-wide metrics, faculty rankings, response statistics, and institutional reports.</p>
+                            </div>
+                        </div>
+                        <span class="badge" style="background:var(--danger); color:white; padding:4px 12px; border-radius:12px;">Select</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary ripple" data-close-modal="roleModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Sign Out Confirmation Modal -->
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-box" style="max-width:480px; text-align:center;">
+            <div style="font-size:3rem; color:var(--warning); margin-bottom:15px;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+            <h3 style="margin-bottom:10px; font-size:1.35rem; color:var(--text-main);">Sign Out of Feedback Portal?</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:25px;">
+                You will be redirected to the Sign In page. Your draft feedback and submitted reviews remain saved.
+            </p>
+            <div style="display:flex; gap:12px; justify-content:center;">
+                <button class="btn btn-secondary ripple" data-close-modal="logoutModal">Cancel</button>
+                <button class="btn btn-primary ripple" id="confirmLogoutBtn" style="background:var(--danger);">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
     <!-- Custom JS -->
     <script src="script.js"></script>
